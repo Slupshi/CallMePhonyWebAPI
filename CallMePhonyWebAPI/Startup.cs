@@ -1,23 +1,32 @@
-﻿using Microsoft.OpenApi.Models;
-using System.Reflection;
+﻿using System.Reflection;
+using CallMePhonyWebAPI.Data;
+using CallMePhonyWebAPI.Services;
+using Microsoft.OpenApi.Models;
 
 namespace CallMePhonyWebAPI;
 
-public class Startup {
+public class Startup
+{
     private readonly IConfiguration _configuration;
 
-    public Startup(IConfiguration configuration) {
+    public Startup(IConfiguration configuration)
+    {
         _configuration = configuration;
     }
 
-    public void ConfigureServices(IServiceCollection services) {
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllers();
         services.AddMvc();
         services.AddSession();
-        services.AddHttpLogging((options) => {
+        services.AddHttpLogging((options) =>
+        {
             options.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.Request;
         });
-        services.AddSwaggerGen(options => {
-            options.SwaggerDoc("v1", new OpenApiInfo {
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
                 Version = "v1",
                 Title = "CallMePhonyWebAPI",
                 Description = "An ASP.NET Core Web API for managing CallMePhony App",
@@ -26,11 +35,16 @@ public class Startup {
             var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
         });
+
+        services.AddDbContext<CallMePhonyDbContext>();
+        services.AddScoped<IUserService, UserService>();
     }
 
-    public void Configure(IApplicationBuilder app) {
+    public void Configure(IApplicationBuilder app)
+    {
         app.UseSwagger();
-        app.UseSwaggerUI(options => {
+        app.UseSwaggerUI(options =>
+        {
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
             options.RoutePrefix = string.Empty;
         });
@@ -43,7 +57,8 @@ public class Startup {
 
         app.UseRouting();
 
-        app.UseEndpoints(endpoints => {
+        app.UseEndpoints(endpoints =>
+        {
             endpoints.MapControllers();
         });
     }
