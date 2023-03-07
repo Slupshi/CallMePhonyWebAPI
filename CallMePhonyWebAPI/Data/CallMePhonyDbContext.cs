@@ -13,6 +13,8 @@ public class CallMePhonyDbContext : DbContext
     }
 
     public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<Site> Sites { get; set; }
+    public virtual DbSet<Service> Services { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -22,8 +24,6 @@ public class CallMePhonyDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
     }
-
-
-
 }

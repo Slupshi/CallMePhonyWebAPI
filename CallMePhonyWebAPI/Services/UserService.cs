@@ -20,19 +20,30 @@ public class UserService : IUserService
         throw new NotImplementedException();
     }
 
-    public Task<User?> GetUserByNameAsync(string username)
+    public Task<User?> GetUsersByNameAsync(string username)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<User?>> GetUsersAsync()
+    public Task<User?> GetUsersBySiteAsync(Site site)
     {
         throw new NotImplementedException();
     }
 
-    public Task<User?> PostUserAsync(User model)
+    public Task<User?> GetUsersByServiceAsync(Service service)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<IEnumerable<User?>> GetUsersAsync() => await _context.Users.Include(u => u.Service)
+                                                                                 .Include(u => u.Site)
+                                                                                 .ToListAsync();
+
+    public async Task<User?> PostUserAsync(User model)
+    {
+        User? newUser = (await _context.Users.AddAsync(model)).Entity;
+        await _context.SaveChangesAsync();
+        return newUser;
     }
 
     public Task<User?> PutUserAsync(User model)
@@ -44,4 +55,6 @@ public class UserService : IUserService
     {
         throw new NotImplementedException();
     }
+
+
 }

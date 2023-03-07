@@ -21,4 +21,8 @@
 	<DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0-msbuild3-final" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Seeders\" />
+  </ItemGroup>
+
 </Project>
