@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using CallMePhonyWebAPI.Data;
 using CallMePhonyWebAPI.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 namespace CallMePhonyWebAPI;
@@ -40,8 +41,10 @@ public class Startup
         services.AddScoped<IUserService, UserService>();
     }
 
-    public void Configure(IApplicationBuilder app)
+    public void Configure(IApplicationBuilder app, CallMePhonyDbContext context)
     {
+        context.Database.EnsureCreated();
+
         app.UseSwagger();
         app.UseSwaggerUI(options =>
         {

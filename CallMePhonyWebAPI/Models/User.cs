@@ -15,4 +15,5 @@ public class User
     public UserType UserType { get; set; }
 
     public virtual Service Service { get; set; }
+    public virtual Site Site { get; set; }
 }

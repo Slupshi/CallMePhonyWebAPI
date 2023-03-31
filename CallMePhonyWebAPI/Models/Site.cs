@@ -8,6 +8,6 @@ namespace CallMePhonyWebAPI.Models
         public string Name { get; set; }
         public SiteType SiteType { get; set; }
 
-        public virtual IEnumerable<Service> Services { get; set; }
+        public virtual IEnumerable<Site> Sites { get; set; }
     }
 }
