@@ -5,9 +5,9 @@ namespace CallMePhonyWebAPI.Models
     public class Site
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public SiteType SiteType { get; set; }
+        public string? Name { get; set; }
+        public SiteType? SiteType { get; set; }
 
-        public virtual IEnumerable<Site> Sites { get; set; }
+        public virtual IEnumerable<User>? Users { get; set; }
     }
 }

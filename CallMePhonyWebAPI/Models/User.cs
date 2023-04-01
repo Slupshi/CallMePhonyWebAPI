@@ -11,9 +11,9 @@ public class User
     public string Email { get; set; }
     public string Phone { get; set; }
     public string MobilePhone { get; set; }
-    public string Password { get; set; }
-    public UserType UserType { get; set; }
+    public string? Password { get; set; }
+    public UserType? UserType { get; set; }
 
-    public virtual Service Service { get; set; }
-    public virtual Site Site { get; set; }
+    public virtual Service? Service { get; set; }
+    public virtual Site? Site { get; set; }
 }
