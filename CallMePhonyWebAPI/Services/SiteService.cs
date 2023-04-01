@@ -22,6 +22,7 @@ namespace CallMePhonyWebAPI.Services
         public async Task<Site?> PostSiteAsync(Site model)
         {
             Site? site = (await _context.Sites.AddAsync(model)).Entity;
+            await _context.SaveChangesAsync();
             return site;
         }
 
@@ -31,12 +32,23 @@ namespace CallMePhonyWebAPI.Services
             await _context.SaveChangesAsync();
             return model;
         }
+
         public async Task<bool> DeleteSiteAsync(int id)
         {
             Site? dbSite = await GetSiteAsync(id);
             if (dbSite != null)
             {
                 _context.Sites.Remove(dbSite);
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> SiteExistsAsync(int id)
+        {
+            Site? site = await GetSiteAsync(id);
+            if (site != null)
+            {
                 return true;
             }
             return false;

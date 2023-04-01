@@ -13,5 +13,7 @@ namespace CallMePhonyWebAPI.Services
         public Task<User?> PostUserAsync(User model);
         public Task<User?> PutUserAsync(User model);
         public Task<bool> DeleteUserAsync(int id);
+
+        public Task<bool> UserExistsAsync(int id);
     }
 }

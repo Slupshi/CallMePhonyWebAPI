@@ -10,5 +10,7 @@ namespace CallMePhonyWebAPI.Services
         public Task<Site?> PostSiteAsync(Site model);
         public Task<Site?> PutSiteAsync(Site model);
         public Task<bool> DeleteSiteAsync(int id);
+
+        public Task<bool> SiteExistsAsync(int id);
     }
 }

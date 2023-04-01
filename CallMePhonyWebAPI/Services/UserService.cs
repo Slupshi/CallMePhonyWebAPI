@@ -7,10 +7,14 @@ namespace CallMePhonyWebAPI.Services;
 public class UserService : IUserService
 {
     private readonly CallMePhonyDbContext _context;
+    private readonly ISiteService _siteService;
+    private readonly IServiceService _serviceService;
 
-    public UserService(CallMePhonyDbContext context)
+    public UserService(CallMePhonyDbContext context, ISiteService siteService, IServiceService serviceService)
     {
         _context = context;
+        _siteService = siteService;
+        _serviceService = serviceService;
     }
 
     public async Task<User?> GetUserAsync(int id) => await _context.Users.Include(u => u.Service)
@@ -42,6 +46,24 @@ public class UserService : IUserService
 
     public async Task<User?> PostUserAsync(User model)
     {
+        if(model.Site?.Id != null)
+        {
+            Site? site = await _siteService.GetSiteAsync(model.Site.Id);
+            if(site != null)
+            {
+                model.Site = site;
+            }
+        }
+
+        if (model.Service?.Id != null)
+        {
+            Service? service = await _serviceService.GetServiceAsync(model.Service.Id);
+            if (service != null)
+            {
+                model.Service = service;
+            }
+        }
+
         User? newUser = (await _context.Users.AddAsync(model)).Entity;
         await _context.SaveChangesAsync();
         return newUser;
@@ -72,6 +94,16 @@ public class UserService : IUserService
         if(dbUser != null)
         {
             _context.Users.Remove(dbUser);
+            return true;
+        }
+        return false;
+    }
+
+    public async Task<bool> UserExistsAsync(int id)
+    {
+        User? dbUser = await GetUserAsync(id);
+        if(dbUser != null )
+        {
             return true;
         }
         return false;

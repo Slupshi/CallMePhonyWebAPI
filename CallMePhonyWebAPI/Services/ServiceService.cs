@@ -22,6 +22,7 @@ namespace CallMePhonyWebAPI.Services
         public async Task<Service?> PostServiceAsync(Service model)
         {
             Service? Service = (await _context.Services.AddAsync(model)).Entity;
+            await _context.SaveChangesAsync();
             return Service;
         }
 
@@ -37,6 +38,16 @@ namespace CallMePhonyWebAPI.Services
             if (dbService != null)
             {
                 _context.Services.Remove(dbService);
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> ServiceExistsAsync(int id)
+        {
+            Service? service = await GetServiceAsync(id);
+            if (service != null)
+            {
                 return true;
             }
             return false;

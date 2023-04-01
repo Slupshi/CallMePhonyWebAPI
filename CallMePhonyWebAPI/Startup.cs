@@ -17,7 +17,7 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddControllers();
+        services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         services.AddMvc();
         services.AddSession();
         services.AddHttpLogging((options) =>
@@ -35,10 +35,13 @@ public class Startup
 
             var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+            //options.OrderActionsBy((apiDesc) => $"{apiDesc.ActionDescriptor.RouteValues["controller"]}_{apiDesc.HttpMethod}");
         });
 
         services.AddDbContext<CallMePhonyDbContext>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IServiceService, ServiceService>();
+        services.AddScoped<ISiteService, SiteService>();
     }
 
     public void Configure(IApplicationBuilder app, CallMePhonyDbContext context)

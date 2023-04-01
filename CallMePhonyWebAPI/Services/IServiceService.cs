@@ -10,5 +10,7 @@ namespace CallMePhonyWebAPI.Services
         public Task<Service?> PostServiceAsync(Service model);
         public Task<Service?> PutServiceAsync(Service model);
         public Task<bool> DeleteServiceAsync(int id);
+
+        public Task<bool> ServiceExistsAsync(int id);
     }
 }
