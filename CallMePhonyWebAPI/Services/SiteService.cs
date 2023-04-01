@@ -12,13 +12,16 @@ namespace CallMePhonyWebAPI.Services
             _context = context;
         }
 
+        // </inheritedoc>
         public async Task<Site?> GetSiteAsync(int id) => await _context.Sites.AsNoTracking().Include(s => s.Users).FirstOrDefaultAsync(s => s.Id == id);
 
+        // </inheritedoc>
         public async Task<IEnumerable<Site?>> GetSitesAsync() => await _context.Sites.ToListAsync();
 
+        // </inheritedoc>
         public async Task<IEnumerable<Site?>> GetSitesByNameAsync(string name) => await _context.Sites.Where(s => s.Name.Contains(name))
                                                                                                       .ToListAsync();
-
+        // </inheritedoc>
         public async Task<Site?> PostSiteAsync(Site model)
         {
             Site? site = (await _context.Sites.AddAsync(model)).Entity;
@@ -26,6 +29,7 @@ namespace CallMePhonyWebAPI.Services
             return site;
         }
 
+        // </inheritedoc>
         public async Task<Site?> PutSiteAsync(Site model)
         {
             if (model.Users != null)
@@ -43,6 +47,7 @@ namespace CallMePhonyWebAPI.Services
             return model;
         }
 
+        // </inheritedoc>
         public async Task<bool> DeleteSiteAsync(int id)
         {
             Site? dbSite = await GetSiteAsync(id);
@@ -55,6 +60,7 @@ namespace CallMePhonyWebAPI.Services
             return false;
         }
 
+        // </inheritedoc>
         public async Task<bool> SiteExistsAsync(int id)
         {
             Site? site = await _context.Sites.AsNoTracking().FirstOrDefaultAsync(s => s.Id == id);

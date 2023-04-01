@@ -12,13 +12,16 @@ namespace CallMePhonyWebAPI.Services
             _context = context;
         }
 
+        // </inheritedoc>
         public async Task<Service?> GetServiceAsync(int id) => await _context.Services.AsNoTracking().Include(s => s.Users).FirstOrDefaultAsync(s => s.Id == id);
 
+        // </inheritedoc>
         public async Task<IEnumerable<Service?>> GetServicesAsync() => await _context.Services.ToListAsync();
 
+        // </inheritedoc>
         public async Task<IEnumerable<Service?>> GetServicesByNameAsync(string name) => await _context.Services.Where(s => s.Name.Contains(name))
                                                                                                                .ToListAsync();
-
+        // </inheritedoc>
         public async Task<Service?> PostServiceAsync(Service model)
         {
             Service? Service = (await _context.Services.AddAsync(model)).Entity;
@@ -26,6 +29,7 @@ namespace CallMePhonyWebAPI.Services
             return Service;
         }
 
+        // </inheritedoc>
         public async Task<Service?> PutServiceAsync(Service model)
         {
             if (model.Users != null)
@@ -42,6 +46,8 @@ namespace CallMePhonyWebAPI.Services
             await _context.SaveChangesAsync();
             return model;
         }
+
+        // </inheritedoc>
         public async Task<bool> DeleteServiceAsync(int id)
         {
             Service? dbService = await GetServiceAsync(id);
@@ -54,6 +60,7 @@ namespace CallMePhonyWebAPI.Services
             return false;
         }
 
+        // </inheritedoc>
         public async Task<bool> ServiceExistsAsync(int id)
         {
             Service? service = await _context.Services.AsNoTracking().FirstOrDefaultAsync(s => s.Id == id);
