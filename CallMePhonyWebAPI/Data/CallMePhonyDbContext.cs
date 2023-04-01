@@ -24,6 +24,12 @@ public class CallMePhonyDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<User>()
+                    .HasOne(u => u.Site)
+                    .WithMany(s => s.Users);
 
+        modelBuilder.Entity<User>()
+                    .HasOne(u => u.Service)
+                    .WithMany(s => s.Users);
     }
 }

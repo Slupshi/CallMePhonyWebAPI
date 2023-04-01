@@ -13,7 +13,10 @@ namespace CallMePhonyWebAPI.Services
         }
 
         // </inheritedoc>
-        public async Task<Site?> GetSiteAsync(int id) => await _context.Sites.AsNoTracking().Include(s => s.Users).FirstOrDefaultAsync(s => s.Id == id);
+        public async Task<Site?> GetSiteAsync(int id) => await _context.Sites.Include(s => s.Users).FirstOrDefaultAsync(s => s.Id == id);
+
+        // </inheritedoc>
+        public async Task<Site?> GetSiteAsNoTrackingAsync(int id) => await _context.Sites.AsNoTracking().Include(s => s.Users).FirstOrDefaultAsync(s => s.Id == id);
 
         // </inheritedoc>
         public async Task<IEnumerable<Site?>> GetSitesAsync() => await _context.Sites.ToListAsync();
