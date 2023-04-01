@@ -12,7 +12,7 @@ using CallMePhonyWebAPI.Services;
 namespace CallMePhonyWebAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [Produces("application/json")]
     public class ServicesController : ControllerBase
     {
@@ -132,7 +132,7 @@ namespace CallMePhonyWebAPI.Controllers
         }
 
         /// <summary>
-        /// Delete a Service entity
+        /// Update a Service entity
         /// </summary>
         /// <returns></returns>
         /// <remarks>

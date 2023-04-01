@@ -17,7 +17,8 @@ public class UserService : IUserService
         _serviceService = serviceService;
     }
 
-    public async Task<User?> GetUserAsync(int id) => await _context.Users.Include(u => u.Service)
+    public async Task<User?> GetUserAsync(int id) => await _context.Users.AsNoTracking()
+                                                                         .Include(u => u.Service)
                                                                          .Include(u => u.Site)
                                                                          .FirstOrDefaultAsync(u => u.Id == id);
 
@@ -83,7 +84,27 @@ public class UserService : IUserService
         //dbUser.MobilePhone = model.MobilePhone;
         //dbUser.Phone = model.Phone;
         //await _context.SaveChangesAsync();
+
+        if (model.Site?.Id != null)
+        {
+            Site? site = await _siteService.GetSiteAsync(model.Site.Id);
+            if (site != null)
+            {
+                model.Site = site;
+            }
+        }
+
+        if (model.Service?.Id != null)
+        {
+            Service? service = await _serviceService.GetServiceAsync(model.Service.Id);
+            if (service != null)
+            {
+                model.Service = service;
+            }
+        }
+
         _context.Entry(model).State = EntityState.Modified;
+        //_context.Users.Update(model);
         await _context.SaveChangesAsync();
         return model;
     }
@@ -94,6 +115,7 @@ public class UserService : IUserService
         if(dbUser != null)
         {
             _context.Users.Remove(dbUser);
+            await _context.SaveChangesAsync();
             return true;
         }
         return false;
@@ -101,8 +123,8 @@ public class UserService : IUserService
 
     public async Task<bool> UserExistsAsync(int id)
     {
-        User? dbUser = await GetUserAsync(id);
-        if(dbUser != null )
+        User? user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
+        if (user != null )
         {
             return true;
         }

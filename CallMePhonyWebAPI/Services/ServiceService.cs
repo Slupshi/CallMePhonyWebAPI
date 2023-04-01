@@ -12,7 +12,7 @@ namespace CallMePhonyWebAPI.Services
             _context = context;
         }
 
-        public async Task<Service?> GetServiceAsync(int id) => await _context.Services.FirstOrDefaultAsync(s => s.Id == id);
+        public async Task<Service?> GetServiceAsync(int id) => await _context.Services.AsNoTracking().Include(s => s.Users).FirstOrDefaultAsync(s => s.Id == id);
 
         public async Task<IEnumerable<Service?>> GetServicesAsync() => await _context.Services.ToListAsync();
 
@@ -28,6 +28,16 @@ namespace CallMePhonyWebAPI.Services
 
         public async Task<Service?> PutServiceAsync(Service model)
         {
+            if (model.Users != null)
+            {
+                List<User> users = new List<User>();
+                foreach (var user in model.Users)
+                {
+                    users.Add(user);
+                }
+                model.Users = users;
+            }
+
             _context.Entry(model).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return model;
@@ -38,6 +48,7 @@ namespace CallMePhonyWebAPI.Services
             if (dbService != null)
             {
                 _context.Services.Remove(dbService);
+                await _context.SaveChangesAsync();
                 return true;
             }
             return false;
@@ -45,7 +56,7 @@ namespace CallMePhonyWebAPI.Services
 
         public async Task<bool> ServiceExistsAsync(int id)
         {
-            Service? service = await GetServiceAsync(id);
+            Service? service = await _context.Services.AsNoTracking().FirstOrDefaultAsync(s => s.Id == id);
             if (service != null)
             {
                 return true;

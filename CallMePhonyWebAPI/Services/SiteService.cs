@@ -12,7 +12,7 @@ namespace CallMePhonyWebAPI.Services
             _context = context;
         }
 
-        public async Task<Site?> GetSiteAsync(int id) => await _context.Sites.FirstOrDefaultAsync(s => s.Id == id);
+        public async Task<Site?> GetSiteAsync(int id) => await _context.Sites.AsNoTracking().Include(s => s.Users).FirstOrDefaultAsync(s => s.Id == id);
 
         public async Task<IEnumerable<Site?>> GetSitesAsync() => await _context.Sites.ToListAsync();
 
@@ -28,6 +28,16 @@ namespace CallMePhonyWebAPI.Services
 
         public async Task<Site?> PutSiteAsync(Site model)
         {
+            if (model.Users != null)
+            {
+                List<User> users = new List<User>();
+                foreach (var user in model.Users)
+                {
+                    users.Add(user);
+                }
+                model.Users = users;
+            }
+
             _context.Entry(model).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return model;
@@ -39,6 +49,7 @@ namespace CallMePhonyWebAPI.Services
             if (dbSite != null)
             {
                 _context.Sites.Remove(dbSite);
+                await _context.SaveChangesAsync();
                 return true;
             }
             return false;
@@ -46,7 +57,7 @@ namespace CallMePhonyWebAPI.Services
 
         public async Task<bool> SiteExistsAsync(int id)
         {
-            Site? site = await GetSiteAsync(id);
+            Site? site = await _context.Sites.AsNoTracking().FirstOrDefaultAsync(s => s.Id == id);
             if (site != null)
             {
                 return true;

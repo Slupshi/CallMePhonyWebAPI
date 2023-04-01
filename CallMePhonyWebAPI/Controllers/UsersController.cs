@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CallMePhonyWebAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [Produces("application/json")]
     public class UsersController : ControllerBase
     {
@@ -127,7 +127,7 @@ namespace CallMePhonyWebAPI.Controllers
         }
 
         /// <summary>
-        /// Delete a User entity
+        /// Update a User entity
         /// </summary>
         /// <returns></returns>
         /// <remarks>
