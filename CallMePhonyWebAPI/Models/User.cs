@@ -2,9 +2,8 @@
 
 namespace CallMePhonyWebAPI.Models;
 
-public class User
+public class User : ModelBase, ISearchableObject
 {
-    public int Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string UserName { get; set; }

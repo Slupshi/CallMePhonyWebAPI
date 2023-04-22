@@ -9,7 +9,7 @@
             return BCrypt.Net.BCrypt.EnhancedHashPassword(password);
         }
 
-        public static bool VerifyPaswword(string password, string hash)
+        public static bool VerifyPassword(string password, string hash)
         {
             return BCrypt.Net.BCrypt.EnhancedVerify(password, hash);
         }

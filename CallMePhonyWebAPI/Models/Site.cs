@@ -2,7 +2,7 @@
 
 namespace CallMePhonyWebAPI.Models
 {
-    public class Site
+    public class Site : ModelBase, ISearchableObject
     {
         public int Id { get; set; }
         public string? Name { get; set; }

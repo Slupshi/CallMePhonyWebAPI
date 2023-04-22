@@ -29,6 +29,10 @@ public class CallMePhonyDbContext : DbContext
                     .WithMany(s => s.Users);
 
         modelBuilder.Entity<User>()
+                    .HasIndex(u => u.Email)
+                    .IsUnique();
+
+        modelBuilder.Entity<User>()
                     .HasOne(u => u.Service)
                     .WithMany(s => s.Users);
     }
