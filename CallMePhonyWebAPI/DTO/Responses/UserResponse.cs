@@ -27,8 +27,8 @@ namespace CallMePhonyWebAPI.DTO.Responses
             UserType = user.UserType;
             Phone = user.Phone;
             MobilePhone = user.MobilePhone;
-            ServiceId = user.Service.Id;
-            SiteId = user.Site.Id;
+            ServiceId = user.Service?.Id;
+            SiteId = user.Site?.Id;
         }
 
     }

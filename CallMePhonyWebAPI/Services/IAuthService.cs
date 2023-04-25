@@ -17,8 +17,8 @@ namespace CallMePhonyWebAPI.Services
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
-        /// <returns></returns>
-        public LoginResponse Login(string email, string password);
+        /// <returns>LoginResponse with JWT Token and User model</returns>
+        public Task<LoginResponse> LoginAsync(string email, string password);
         /// <summary>
         /// Create a Json Web Token
         /// </summary>

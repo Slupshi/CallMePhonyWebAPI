@@ -112,6 +112,7 @@ namespace CallMePhonyWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [UserType(UserType = Models.Enums.UserType.Admin)]
         public async Task<ActionResult> PostServiceAsync(Service service)
         {
             try

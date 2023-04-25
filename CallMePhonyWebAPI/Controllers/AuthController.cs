@@ -34,11 +34,11 @@ namespace CallMePhonyWebAPI.Controllers
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult Login(LoginRequest request)
+        public async Task<ActionResult> LoginAsync(LoginRequest request)
         {
             if(request.Email != string.Empty && request.Password != string.Empty)
             {
-                LoginResponse response = _authService.Login(request.Email, request.Password);
+                LoginResponse response = await _authService.LoginAsync(request.Email, request.Password);
                 return StatusCode(StatusCodes.Status200OK, response);
             }
             return BadRequest("Email and passoword must not be empty");            

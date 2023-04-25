@@ -54,6 +54,7 @@ public class Startup
                 ValidIssuer = _configuration["Jwt:Issuer"],
                 IssuerSigningKey = new SymmetricSecurityKey
                         (Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? throw new InvalidOperationException())),
+                ValidateAudience = false,
                 ValidateIssuer = true,
                 ValidateLifetime = false,
                 ValidateIssuerSigningKey = true

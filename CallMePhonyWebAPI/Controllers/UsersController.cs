@@ -1,9 +1,7 @@
 ﻿using CallMePhonyWebAPI.DTO.Responses;
 using CallMePhonyWebAPI.Models;
-using CallMePhonyWebAPI.Models.Enums;
 using CallMePhonyWebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CallMePhonyWebAPI.Controllers
 {

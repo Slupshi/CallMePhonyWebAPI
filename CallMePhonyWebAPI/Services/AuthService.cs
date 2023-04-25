@@ -1,12 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using CallMePhonyWebAPI.Data;
 using CallMePhonyWebAPI.DTO.Requests;
 using CallMePhonyWebAPI.DTO.Responses;
 using CallMePhonyWebAPI.Helpers;
-using CallMePhonyWebAPI.Models;
-using Microsoft.EntityFrameworkCore;
+using CallMePhonyWebAPI.Models.Enums;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CallMePhonyWebAPI.Services
@@ -15,13 +13,13 @@ namespace CallMePhonyWebAPI.Services
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger<AuthService> _logger;
-        private readonly CallMePhonyDbContext _context;
+        private readonly IUserService _userService;
 
-        public AuthService(IConfiguration configuration, ILogger<AuthService> logger, CallMePhonyDbContext context)
+        public AuthService(IConfiguration configuration, ILogger<AuthService> logger, IUserService userService)
         {
             _configuration = configuration;
             _logger = logger;
-            _context = context;
+            _userService = userService;
         }
 
         //</inheritdoc>
@@ -31,9 +29,9 @@ namespace CallMePhonyWebAPI.Services
         }
 
         //</inheritdoc>
-        public LoginResponse Login(string email, string password)
+        public async Task<LoginResponse> LoginAsync(string email, string password)
         {
-            var dbUser = _context.Users.FirstOrDefault(u => u.Email == email);
+            var dbUser = await _userService.GetUserByMailAsync(email);
 
             if (dbUser != null)
             {
@@ -42,6 +40,7 @@ namespace CallMePhonyWebAPI.Services
                     List<Claim> claims = new List<Claim>
                     {
                         new(ClaimTypes.Email, dbUser.Email),
+                        new("UserType", UserTypeHelper.UserTypeToString(dbUser.UserType)),
                     };
 
                     LoginResponse response = new()
