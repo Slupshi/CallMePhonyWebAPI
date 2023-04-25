@@ -73,7 +73,14 @@ public class UserService : IUserService
             }
         }
 
-        model.Password = PasswordHelper.GeneratePassword();
+        if(model.Password != null)
+        {
+            model.Password = PasswordHelper.HashPassword(model.Password);
+        }
+        else
+        {
+            model.Password = PasswordHelper.GeneratePassword();
+        }
 
         User? newUser = (await _context.Users.AddAsync(model)).Entity;
         await _context.SaveChangesAsync();
@@ -102,6 +109,11 @@ public class UserService : IUserService
             }
         }
 
+        User? dbUser = await GetUserAsync(model.Id);
+        model.CreatedAt = dbUser?.CreatedAt;
+        model.Password = model.Password != null ? PasswordHelper.HashPassword(model.Password) : dbUser?.Password;
+        model.UpdatedAt = DateTime.Now;
+        
         _context.Entry(model).State = EntityState.Modified;
         await _context.SaveChangesAsync();
         return model;

@@ -18,6 +18,7 @@ public class CallMePhonyDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         string? connectionString = _configuration.GetConnectionString("CallMePhonyDB");
         optionsBuilder.UseNpgsql(connectionString);
     }
@@ -31,6 +32,27 @@ public class CallMePhonyDbContext : DbContext
         modelBuilder.Entity<User>()
                     .HasIndex(u => u.Email)
                     .IsUnique();
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.CreatedAt)
+                    .HasDefaultValueSql("now()");
+        modelBuilder.Entity<User>()
+                    .Property(u => u.UpdatedAt)
+                    .HasDefaultValueSql("now()");
+
+        modelBuilder.Entity<Site>()
+                    .Property(u => u.CreatedAt)
+                    .HasDefaultValueSql("now()");
+        modelBuilder.Entity<Site>()
+                    .Property(u => u.UpdatedAt)
+                    .HasDefaultValueSql("now()");
+
+        modelBuilder.Entity<Service>()
+                    .Property(u => u.CreatedAt)
+                    .HasDefaultValueSql("now()");
+        modelBuilder.Entity<Service>()
+                    .Property(u => u.UpdatedAt)
+                    .HasDefaultValueSql("now()");
 
         modelBuilder.Entity<User>()
                     .HasOne(u => u.Service)

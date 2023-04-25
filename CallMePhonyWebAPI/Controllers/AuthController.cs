@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CallMePhonyWebAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [Produces("application/json")]
     public class AuthController : ControllerBase
     {
@@ -45,7 +45,7 @@ namespace CallMePhonyWebAPI.Controllers
         }
 
         /// <summary>
-        /// Register
+        /// Register [Not Implemented yet]
         /// </summary>
         /// <returns></returns>
         /// <remarks>
@@ -61,6 +61,7 @@ namespace CallMePhonyWebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult Register(RegisterRequest request)
         {
+            // No register only account creation with an Admin account
             throw new NotImplementedException();
         }
     }

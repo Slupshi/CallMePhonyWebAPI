@@ -45,6 +45,8 @@ namespace CallMePhonyWebAPI.Services
                 model.Users = users;
             }
 
+            model.CreatedAt = (await GetSiteAsNoTrackingAsync(model.Id))?.CreatedAt;
+            model.UpdatedAt = DateTime.Now;
             _context.Entry(model).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return model;

@@ -1,4 +1,6 @@
-﻿using CallMePhonyWebAPI.Models;
+﻿using CallMePhonyWebAPI.DTO.Responses;
+using CallMePhonyWebAPI.Models;
+using CallMePhonyWebAPI.Models.Enums;
 using CallMePhonyWebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +31,7 @@ namespace CallMePhonyWebAPI.Controllers
         ///     GET /Users/1
         ///
         /// </remarks>
-        /// <response code="200">Returns a User model</response>
+        /// <response code="200">Returns a UserResponse</response>
         /// <response code="404">If the item doesn't exist</response>
         /// <response code="400">If the id is 0</response>
         [HttpGet("{id}")]
@@ -46,9 +48,13 @@ namespace CallMePhonyWebAPI.Controllers
                 }
 
                 User? dbUser = await _userService.GetUserAsync(id);
+
+                UserResponse response = new();
+
                 if (dbUser != null)
                 {
-                    return StatusCode(StatusCodes.Status200OK, dbUser);
+                    response = new UserResponse(dbUser);
+                    return StatusCode(StatusCodes.Status200OK, response);
                 }
                 return StatusCode(StatusCodes.Status404NotFound, $"User with id: {id} not found");
             }
@@ -81,7 +87,16 @@ namespace CallMePhonyWebAPI.Controllers
                 IEnumerable<User?> dbUsers = await _userService.GetUsersAsync();
                 if (dbUsers != null && dbUsers.Any())
                 {
-                    return StatusCode(StatusCodes.Status200OK, dbUsers);
+                    List<UserResponse> users = new();
+                    foreach(var dbUser in dbUsers)
+                    {
+                        users.Add(new UserResponse(dbUser));
+                    }
+                    UsersResponse response = new()
+                    {
+                        Users = users,
+                    };
+                    return StatusCode(StatusCodes.Status200OK, response);
                 }
                 return StatusCode(StatusCodes.Status204NoContent);
             }
@@ -118,7 +133,19 @@ namespace CallMePhonyWebAPI.Controllers
 
                 User? newUser = await _userService.PostUserAsync(user);
 
-                return StatusCode(StatusCodes.Status201Created, newUser);
+                if (newUser != null)
+                {
+                    UserResponse response = new UserResponse(newUser);
+                    return StatusCode(StatusCodes.Status201Created, response);
+                }
+                else
+                {
+                    UserResponse response = new()
+                    {
+                        ErrorMessage = "Erreur dans la création de l'utilisateur",
+                    };
+                    return StatusCode(StatusCodes.Status204NoContent, response);
+                }                
             }
             catch(Exception ex)
             {
@@ -155,7 +182,20 @@ namespace CallMePhonyWebAPI.Controllers
                 }
 
                 User? updatedUser = await _userService.PutUserAsync(user);
-                return StatusCode(StatusCodes.Status200OK, updatedUser);
+
+                if (updatedUser != null)
+                {
+                    UserResponse response = new UserResponse(updatedUser);
+                    return StatusCode(StatusCodes.Status200OK, response);
+                }
+                else
+                {
+                    UserResponse response = new()
+                    {
+                        ErrorMessage = "Erreur dans la modification de l'utilisateur",
+                    };
+                    return StatusCode(StatusCodes.Status204NoContent, response);
+                }
             }
             catch (Exception ex)
             {

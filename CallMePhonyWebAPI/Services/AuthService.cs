@@ -25,7 +25,7 @@ namespace CallMePhonyWebAPI.Services
         }
 
         //</inheritdoc>
-        public async Task<LoginResponse> RegisterAsync(RegisterRequest request)
+        public Task<LoginResponse> RegisterAsync(RegisterRequest request)
         {
             throw new NotImplementedException();
         }
@@ -45,8 +45,8 @@ namespace CallMePhonyWebAPI.Services
                     };
 
                     LoginResponse response = new()
-                    { 
-                        User = dbUser,
+                    {
+                        User = new UserResponse(dbUser),
                         Token = CreateJWT(_configuration["Jwt:Key"]!, claims),
                     };
                     return response;
