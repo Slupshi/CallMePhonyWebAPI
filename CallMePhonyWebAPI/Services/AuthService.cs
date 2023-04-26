@@ -1,10 +1,9 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using CallMePhonyWebAPI.DTO.Requests;
-using CallMePhonyWebAPI.DTO.Responses;
+using CallMePhonyEntities.DTO.Requests;
+using CallMePhonyEntities.DTO.Responses;
 using CallMePhonyWebAPI.Helpers;
-using CallMePhonyWebAPI.Models.Enums;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CallMePhonyWebAPI.Services
@@ -35,7 +34,7 @@ namespace CallMePhonyWebAPI.Services
 
             if (dbUser != null)
             {
-                if(PasswordHelper.VerifyPassword(password, dbUser.Password))
+                if (PasswordHelper.VerifyPassword(password, dbUser.Password))
                 {
                     List<Claim> claims = new List<Claim>
                     {
@@ -54,8 +53,8 @@ namespace CallMePhonyWebAPI.Services
                 {
                     ErrorMessage = $"Password incorrect",
                 };
-            }   
-            return new LoginResponse() 
+            }
+            return new LoginResponse()
             {
                 ErrorMessage = $"No User with email : {email} exists",
             };

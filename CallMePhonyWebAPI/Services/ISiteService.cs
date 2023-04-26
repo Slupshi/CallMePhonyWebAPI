@@ -1,4 +1,4 @@
-﻿using CallMePhonyWebAPI.Models;
+﻿using CallMePhonyEntities.Models;
 
 namespace CallMePhonyWebAPI.Services
 {

@@ -1,5 +1,5 @@
-﻿using CallMePhonyWebAPI.Data;
-using CallMePhonyWebAPI.Models;
+﻿using CallMePhonyEntities.Models;
+using CallMePhonyWebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace CallMePhonyWebAPI.Services
@@ -7,7 +7,7 @@ namespace CallMePhonyWebAPI.Services
     public class SiteService : ISiteService
     {
         private readonly CallMePhonyDbContext _context;
-        public SiteService(CallMePhonyDbContext context) 
+        public SiteService(CallMePhonyDbContext context)
         {
             _context = context;
         }

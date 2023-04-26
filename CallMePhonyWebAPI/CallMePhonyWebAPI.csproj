@@ -29,4 +29,8 @@
     <Folder Include="Data\Seeders\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\CallMePhonyEntities\CallMePhonyEntities\CallMePhonyEntities\CallMePhonyEntities.csproj" />
+  </ItemGroup>
+
 </Project>

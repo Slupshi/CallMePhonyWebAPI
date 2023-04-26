@@ -1,4 +1,4 @@
-﻿using CallMePhonyWebAPI.Models.Enums;
+﻿using CallMePhonyEntities.Enums;
 
 namespace CallMePhonyWebAPI.Helpers
 {
@@ -9,10 +9,10 @@ namespace CallMePhonyWebAPI.Helpers
             return type switch
             {
                 UserType.Visitor => Visitor,
-                UserType.Admin =>  Admin,
+                UserType.Admin => Admin,
                 UserType.Maintenance => Maintenance,
                 _ => Visitor
-            };                
+            };
         }
 
         public const string Visitor = "Visiteur";

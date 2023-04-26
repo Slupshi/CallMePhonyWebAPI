@@ -1,6 +1,7 @@
-﻿using CallMePhonyWebAPI.DTO.Responses;
+﻿using CallMePhonyEntities.DTO.Responses;
+using CallMePhonyEntities.Enums;
+using CallMePhonyEntities.Models;
 using CallMePhonyWebAPI.Helpers;
-using CallMePhonyWebAPI.Models;
 using CallMePhonyWebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -87,7 +88,7 @@ namespace CallMePhonyWebAPI.Controllers
                 if (dbUsers != null && dbUsers.Any())
                 {
                     List<UserResponse> users = new();
-                    foreach(var dbUser in dbUsers)
+                    foreach (var dbUser in dbUsers)
                     {
                         users.Add(new UserResponse(dbUser));
                     }
@@ -121,19 +122,19 @@ namespace CallMePhonyWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [UserType(UserType = Models.Enums.UserType.Admin)]
+        [UserType(UserType = UserType.Admin)]
         public async Task<ActionResult> PostUserAsync(User user)
         {
             try
             {
-                if(user == null)
+                if (user == null)
                 {
                     return BadRequest("User can't be null");
                 }
 
                 // if password is not specify we will generate a random one
-                string? temporaryPassword = null ;
-                if(user.Password == null)
+                string? temporaryPassword = null;
+                if (user.Password == null)
                 {
                     temporaryPassword = PasswordHelper.GeneratePassword();
                     user.Password = temporaryPassword;
@@ -154,9 +155,9 @@ namespace CallMePhonyWebAPI.Controllers
                         ErrorMessage = "Erreur dans la création de l'utilisateur",
                     };
                     return StatusCode(StatusCodes.Status204NoContent, response);
-                }                
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status501NotImplemented, ex.Message);
             }
@@ -176,7 +177,7 @@ namespace CallMePhonyWebAPI.Controllers
         /// <response code="400">If id equals 0</response>
         /// <response code="404">If the User doesn't exist</response>
         [HttpPut("{id}")]
-        [UserType(UserType = Models.Enums.UserType.Admin)]
+        [UserType(UserType = UserType.Admin)]
         public async Task<ActionResult> PutUserAsync(int id, User user)
         {
             try
@@ -226,7 +227,7 @@ namespace CallMePhonyWebAPI.Controllers
         /// <response code="200">Returns a boolean isDeleted</response>
         /// <response code="404">If the User doesn't exist</response>
         [HttpDelete("{id}")]
-        [UserType(UserType = Models.Enums.UserType.Admin)]
+        [UserType(UserType = UserType.Admin)]
         public async Task<ActionResult> DeleteUserAsync(int id)
         {
             try

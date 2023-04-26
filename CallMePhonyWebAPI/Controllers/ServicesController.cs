@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using CallMePhonyWebAPI.Data;
-using CallMePhonyWebAPI.Models;
+﻿using CallMePhonyEntities.Enums;
+using CallMePhonyEntities.Models;
 using CallMePhonyWebAPI.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CallMePhonyWebAPI.Controllers
 {
@@ -112,7 +106,7 @@ namespace CallMePhonyWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [UserType(UserType = Models.Enums.UserType.Admin)]
+        [UserType(UserType = UserType.Admin)]
         public async Task<ActionResult> PostServiceAsync(Service service)
         {
             try
@@ -146,7 +140,7 @@ namespace CallMePhonyWebAPI.Controllers
         /// <response code="400">If id equals 0</response>
         /// <response code="404">If the Service doesn't exist</response>
         [HttpPut("{id}")]
-        [UserType(UserType = Models.Enums.UserType.Admin)]
+        [UserType(UserType = UserType.Admin)]
         public async Task<ActionResult> PutUserAsync(int id, Service service)
         {
             try
@@ -183,7 +177,7 @@ namespace CallMePhonyWebAPI.Controllers
         /// <response code="200">Returns a boolean isDeleted</response>
         /// <response code="404">If the Service doesn't exist</response>
         [HttpDelete("{id}")]
-        [UserType(UserType = Models.Enums.UserType.Admin)]
+        [UserType(UserType = UserType.Admin)]
         public async Task<ActionResult> DeleteServiceAsync(int id)
         {
             try

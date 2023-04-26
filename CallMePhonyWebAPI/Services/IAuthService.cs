@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
-using CallMePhonyWebAPI.DTO.Requests;
-using CallMePhonyWebAPI.DTO.Responses;
+using CallMePhonyEntities.DTO.Requests;
+using CallMePhonyEntities.DTO.Responses;
 
 namespace CallMePhonyWebAPI.Services
 {

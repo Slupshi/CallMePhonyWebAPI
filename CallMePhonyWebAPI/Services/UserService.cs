@@ -1,6 +1,6 @@
-﻿using CallMePhonyWebAPI.Data;
+﻿using CallMePhonyEntities.Models;
+using CallMePhonyWebAPI.Data;
 using CallMePhonyWebAPI.Helpers;
-using CallMePhonyWebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CallMePhonyWebAPI.Services;
@@ -55,10 +55,10 @@ public class UserService : IUserService
     // </inheritedoc>
     public async Task<User?> PostUserAsync(User model)
     {
-        if(model.Site?.Id != null)
+        if (model.Site?.Id != null)
         {
             Site? site = await _siteService.GetSiteAsync(model.Site.Id);
-            if(site != null)
+            if (site != null)
             {
                 model.Site = site;
             }
@@ -106,7 +106,7 @@ public class UserService : IUserService
         model.CreatedAt = dbUser?.CreatedAt;
         model.Password = model.Password != null ? PasswordHelper.HashPassword(model.Password) : dbUser?.Password;
         model.UpdatedAt = DateTime.Now;
-        
+
         _context.Entry(model).State = EntityState.Modified;
         await _context.SaveChangesAsync();
         return model;
@@ -116,7 +116,7 @@ public class UserService : IUserService
     public async Task<bool> DeleteUserAsync(int id)
     {
         User? dbUser = await GetUserAsync(id);
-        if(dbUser != null)
+        if (dbUser != null)
         {
             _context.Users.Remove(dbUser);
             await _context.SaveChangesAsync();
@@ -129,7 +129,7 @@ public class UserService : IUserService
     public async Task<bool> UserExistsAsync(int id)
     {
         User? user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
-        if (user != null )
+        if (user != null)
         {
             return true;
         }

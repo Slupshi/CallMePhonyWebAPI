@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using CallMePhonyWebAPI.Data;
-using CallMePhonyWebAPI.Models;
+﻿using CallMePhonyEntities.Enums;
+using CallMePhonyEntities.Models;
 using CallMePhonyWebAPI.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CallMePhonyWebAPI.Controllers
 {
@@ -20,7 +14,7 @@ namespace CallMePhonyWebAPI.Controllers
 
         public SitesController(ISiteService siteService)
         {
-           _siteService = siteService;
+            _siteService = siteService;
         }
 
         /// <summary>
@@ -49,10 +43,10 @@ namespace CallMePhonyWebAPI.Controllers
                     return BadRequest("ID can't be 0");
                 }
 
-                Site? Site = await _siteService.GetSiteAsync(id);
-                if (Site != null)
+                Site? site = await _siteService.GetSiteAsync(id);
+                if (site != null)
                 {
-                    return StatusCode(StatusCodes.Status200OK, Site);
+                    return StatusCode(StatusCodes.Status200OK, site);
                 }
                 return StatusCode(StatusCodes.Status404NotFound, $"Site with id: {id} not found");
             }
@@ -110,7 +104,7 @@ namespace CallMePhonyWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [UserType(UserType = Models.Enums.UserType.Admin)]
+        [UserType(UserType = UserType.Admin)]
         public async Task<ActionResult> PostSiteAsync(Site site)
         {
             try
@@ -144,17 +138,17 @@ namespace CallMePhonyWebAPI.Controllers
         /// <response code="400">If id equals 0</response>
         /// <response code="404">If the Site doesn't exist</response>
         [HttpPut("{id}")]
-        [UserType(UserType = Models.Enums.UserType.Admin)]
+        [UserType(UserType = UserType.Admin)]
         public async Task<ActionResult> PutSiteAsync(int id, Site site)
         {
             try
             {
-                if(id == 0)
+                if (id == 0)
                 {
                     return BadRequest("ID must not be 0");
                 }
 
-                if(!await _siteService.SiteExistsAsync(id))
+                if (!await _siteService.SiteExistsAsync(id))
                 {
                     return NotFound($"Site with id: {id} not found");
                 }
@@ -181,19 +175,19 @@ namespace CallMePhonyWebAPI.Controllers
         /// <response code="200">Returns a boolean isDeleted</response>
         /// <response code="404">If the Site doesn't exist</response>
         [HttpDelete("{id}")]
-        [UserType(UserType = Models.Enums.UserType.Admin)]
+        [UserType(UserType = UserType.Admin)]
         public async Task<ActionResult> DeleteSiteAsync(int id)
         {
             try
             {
-                if(!await _siteService.SiteExistsAsync(id))
+                if (!await _siteService.SiteExistsAsync(id))
                 {
                     return NotFound($"Site with id: {id} not found");
                 }
 
-                bool isDeleted =  await _siteService.DeleteSiteAsync(id);
+                bool isDeleted = await _siteService.DeleteSiteAsync(id);
                 return StatusCode(StatusCodes.Status200OK, isDeleted);
-            } 
+            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status501NotImplemented, ex.Message);

@@ -1,7 +1,5 @@
-﻿using System.Security.Claims;
+﻿using CallMePhonyEntities.Enums;
 using CallMePhonyWebAPI.Helpers;
-using CallMePhonyWebAPI.Models;
-using CallMePhonyWebAPI.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

@@ -1,5 +1,5 @@
-﻿using CallMePhonyWebAPI.Data;
-using CallMePhonyWebAPI.Models;
+﻿using CallMePhonyEntities.Models;
+using CallMePhonyWebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace CallMePhonyWebAPI.Services
