@@ -11,12 +11,10 @@ namespace CallMePhonyWebAPI.Controllers
     [Produces("application/json")]
     public class UsersController : ControllerBase
     {
-        private readonly ILogger<UsersController> _logger;
         private readonly IUserService _userService;
 
-        public UsersController(ILogger<UsersController> logger, IUserService userService)
+        public UsersController(IUserService userService)
         {
-            _logger = logger;
             _userService = userService;
         }
 
@@ -79,7 +77,7 @@ namespace CallMePhonyWebAPI.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult> GetUsers()
+        public async Task<ActionResult<UsersResponse>> GetUsersAsync()
         {
             try
             {
