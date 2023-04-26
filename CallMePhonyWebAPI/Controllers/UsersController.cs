@@ -1,4 +1,5 @@
 ﻿using CallMePhonyWebAPI.DTO.Responses;
+using CallMePhonyWebAPI.Helpers;
 using CallMePhonyWebAPI.Models;
 using CallMePhonyWebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -130,11 +131,20 @@ namespace CallMePhonyWebAPI.Controllers
                     return BadRequest("User can't be null");
                 }
 
+                // if password is not specify we will generate a random one
+                string? temporaryPassword = null ;
+                if(user.Password == null)
+                {
+                    temporaryPassword = PasswordHelper.GeneratePassword();
+                    user.Password = temporaryPassword;
+                }
+
                 User? newUser = await _userService.PostUserAsync(user);
 
                 if (newUser != null)
                 {
                     UserResponse response = new UserResponse(newUser);
+                    response.TemporaryPassword = temporaryPassword;
                     return StatusCode(StatusCodes.Status201Created, response);
                 }
                 else

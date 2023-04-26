@@ -73,14 +73,7 @@ public class UserService : IUserService
             }
         }
 
-        if(model.Password != null)
-        {
-            model.Password = PasswordHelper.HashPassword(model.Password);
-        }
-        else
-        {
-            model.Password = PasswordHelper.GeneratePassword();
-        }
+        model.Password = PasswordHelper.HashPassword(model.Password);
 
         User? newUser = (await _context.Users.AddAsync(model)).Entity;
         await _context.SaveChangesAsync();

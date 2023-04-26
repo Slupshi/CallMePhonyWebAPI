@@ -17,6 +17,8 @@ namespace CallMePhonyWebAPI.DTO.Responses
         public Service? Service { get; set; }
         public Site? Site { get; set; }
 
+        public string? TemporaryPassword { get; set; }
+
         public UserResponse() { }
 
         public UserResponse(User user) 

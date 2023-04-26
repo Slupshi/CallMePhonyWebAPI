@@ -4,15 +4,9 @@
     {
         private static Random _random = new Random();
 
-        public static string HashPassword(string password)
-        {
-            return BCrypt.Net.BCrypt.EnhancedHashPassword(password);
-        }
+        public static string HashPassword(string password) => BCrypt.Net.BCrypt.EnhancedHashPassword(password);
 
-        public static bool VerifyPassword(string password, string hash)
-        {
-            return BCrypt.Net.BCrypt.EnhancedVerify(password, hash);
-        }
+        public static bool VerifyPassword(string password, string hash) => BCrypt.Net.BCrypt.EnhancedVerify(password, hash);
 
 
         public static string GeneratePassword()
@@ -21,7 +15,7 @@
             string password = new string(Enumerable.Repeat(chars, 32)
                                         .Select(s => s[_random.Next(s.Length)])
                                         .ToArray());
-            return HashPassword(password);
+            return password;
         }
     }
 }
