@@ -11,6 +11,12 @@ namespace CallMePhonyWebAPI.Services
         /// <returns>A Service entity</returns>
         public Task<Service?> GetServiceAsync(int id);
         /// <summary>
+        /// Get a Service entity with its id as no tracking
+        /// </summary>
+        /// <param name="id">Service's id</param>
+        /// <returns>A Service entity</returns>
+        public Task<Service?> GetServiceAsNoTrackingAsync(int id);
+        /// <summary>
         /// Get all Services entities with their Servicename
         /// </summary>
         /// <param name="name">Service's Servicename</param>

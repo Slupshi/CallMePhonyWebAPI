@@ -1,4 +1,5 @@
 ﻿using CallMePhonyWebAPI.Data;
+using CallMePhonyWebAPI.Helpers;
 using CallMePhonyWebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -72,6 +73,8 @@ public class UserService : IUserService
             }
         }
 
+        model.Password = PasswordHelper.HashPassword(model.Password);
+
         User? newUser = (await _context.Users.AddAsync(model)).Entity;
         await _context.SaveChangesAsync();
         return newUser;
@@ -83,7 +86,7 @@ public class UserService : IUserService
 
         if (model.Site?.Id != null)
         {
-            Site? site = await _siteService.GetSiteAsync(model.Site.Id);
+            Site? site = await _siteService.GetSiteAsNoTrackingAsync(model.Site.Id);
             if (site != null)
             {
                 model.Site = site;
@@ -92,13 +95,18 @@ public class UserService : IUserService
 
         if (model.Service?.Id != null)
         {
-            Service? service = await _serviceService.GetServiceAsync(model.Service.Id);
+            Service? service = await _serviceService.GetServiceAsNoTrackingAsync(model.Service.Id);
             if (service != null)
             {
                 model.Service = service;
             }
         }
 
+        User? dbUser = await GetUserAsync(model.Id);
+        model.CreatedAt = dbUser?.CreatedAt;
+        model.Password = model.Password != null ? PasswordHelper.HashPassword(model.Password) : dbUser?.Password;
+        model.UpdatedAt = DateTime.Now;
+        
         _context.Entry(model).State = EntityState.Modified;
         await _context.SaveChangesAsync();
         return model;

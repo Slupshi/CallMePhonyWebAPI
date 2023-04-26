@@ -1,7 +1,11 @@
 ﻿using System.Reflection;
+using System.Text;
 using CallMePhonyWebAPI.Data;
+using CallMePhonyWebAPI.Helpers;
 using CallMePhonyWebAPI.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace CallMePhonyWebAPI;
@@ -38,7 +42,27 @@ public class Startup
             //options.OrderActionsBy((apiDesc) => $"{apiDesc.ActionDescriptor.RouteValues["controller"]}_{apiDesc.HttpMethod}");
         });
 
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(o =>
+        {
+            o.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidIssuer = _configuration["Jwt:Issuer"],
+                IssuerSigningKey = new SymmetricSecurityKey
+                        (Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? throw new InvalidOperationException())),
+                ValidateAudience = false,
+                ValidateIssuer = true,
+                ValidateLifetime = false,
+                ValidateIssuerSigningKey = true
+            };
+        });
+
         services.AddDbContext<CallMePhonyDbContext>();
+        services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IServiceService, ServiceService>();
         services.AddScoped<ISiteService, SiteService>();
@@ -62,6 +86,9 @@ public class Startup
         app.UseSession();
 
         app.UseRouting();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
         {

@@ -13,7 +13,10 @@ namespace CallMePhonyWebAPI.Services
         }
 
         // </inheritedoc>
-        public async Task<Service?> GetServiceAsync(int id) => await _context.Services.AsNoTracking().Include(s => s.Users).FirstOrDefaultAsync(s => s.Id == id);
+        public async Task<Service?> GetServiceAsync(int id) => await _context.Services.Include(s => s.Users).FirstOrDefaultAsync(s => s.Id == id);
+
+        // </inheritedoc>
+        public async Task<Service?> GetServiceAsNoTrackingAsync(int id) => await _context.Services.AsNoTracking().Include(s => s.Users).FirstOrDefaultAsync(s => s.Id == id);
 
         // </inheritedoc>
         public async Task<IEnumerable<Service?>> GetServicesAsync() => await _context.Services.ToListAsync();
@@ -24,9 +27,9 @@ namespace CallMePhonyWebAPI.Services
         // </inheritedoc>
         public async Task<Service?> PostServiceAsync(Service model)
         {
-            Service? Service = (await _context.Services.AddAsync(model)).Entity;
+            Service? service = (await _context.Services.AddAsync(model)).Entity;
             await _context.SaveChangesAsync();
-            return Service;
+            return service;
         }
 
         // </inheritedoc>
@@ -42,6 +45,8 @@ namespace CallMePhonyWebAPI.Services
                 model.Users = users;
             }
 
+            model.CreatedAt = (await GetServiceAsNoTrackingAsync(model.Id))?.CreatedAt;
+            model.UpdatedAt = DateTime.Now;
             _context.Entry(model).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return model;

@@ -11,6 +11,12 @@ namespace CallMePhonyWebAPI.Services
         /// <returns>A Site entity</returns>
         public Task<Site?> GetSiteAsync(int id);
         /// <summary>
+        /// Get a Site entity with its id as no tracking
+        /// </summary>
+        /// <param name="id">Site's id</param>
+        /// <returns>A Site entity</returns>
+        public Task<Site?> GetSiteAsNoTrackingAsync(int id);
+        /// <summary>
         /// Get all Sites entities with their Sitename
         /// </summary>
         /// <param name="name">Site's Sitename</param>

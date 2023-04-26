@@ -13,7 +13,10 @@ namespace CallMePhonyWebAPI.Services
         }
 
         // </inheritedoc>
-        public async Task<Site?> GetSiteAsync(int id) => await _context.Sites.AsNoTracking().Include(s => s.Users).FirstOrDefaultAsync(s => s.Id == id);
+        public async Task<Site?> GetSiteAsync(int id) => await _context.Sites.Include(s => s.Users).FirstOrDefaultAsync(s => s.Id == id);
+
+        // </inheritedoc>
+        public async Task<Site?> GetSiteAsNoTrackingAsync(int id) => await _context.Sites.AsNoTracking().Include(s => s.Users).FirstOrDefaultAsync(s => s.Id == id);
 
         // </inheritedoc>
         public async Task<IEnumerable<Site?>> GetSitesAsync() => await _context.Sites.ToListAsync();
@@ -42,6 +45,8 @@ namespace CallMePhonyWebAPI.Services
                 model.Users = users;
             }
 
+            model.CreatedAt = (await GetSiteAsNoTrackingAsync(model.Id))?.CreatedAt;
+            model.UpdatedAt = DateTime.Now;
             _context.Entry(model).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return model;
