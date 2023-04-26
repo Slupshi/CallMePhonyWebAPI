@@ -120,6 +120,7 @@ namespace CallMePhonyWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [UserType(UserType = Models.Enums.UserType.Admin | Models.Enums.UserType.Maintenance)]
         public async Task<ActionResult> PostUserAsync(User user)
         {
             try
@@ -165,6 +166,7 @@ namespace CallMePhonyWebAPI.Controllers
         /// <response code="400">If id equals 0</response>
         /// <response code="404">If the User doesn't exist</response>
         [HttpPut("{id}")]
+        [UserType(UserType = Models.Enums.UserType.Admin | Models.Enums.UserType.Maintenance)]
         public async Task<ActionResult> PutUserAsync(int id, User user)
         {
             try
@@ -214,6 +216,7 @@ namespace CallMePhonyWebAPI.Controllers
         /// <response code="200">Returns a boolean isDeleted</response>
         /// <response code="404">If the User doesn't exist</response>
         [HttpDelete("{id}")]
+        [UserType(UserType = Models.Enums.UserType.Admin | Models.Enums.UserType.Maintenance)]
         public async Task<ActionResult> DeleteUserAsync(int id)
         {
             try

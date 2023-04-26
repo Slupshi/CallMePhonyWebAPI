@@ -1,10 +1,12 @@
 ﻿using CallMePhonyWebAPI.DTO.Requests;
 using CallMePhonyWebAPI.DTO.Responses;
 using CallMePhonyWebAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CallMePhonyWebAPI.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]

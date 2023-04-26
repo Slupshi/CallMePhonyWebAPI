@@ -146,6 +146,7 @@ namespace CallMePhonyWebAPI.Controllers
         /// <response code="400">If id equals 0</response>
         /// <response code="404">If the Service doesn't exist</response>
         [HttpPut("{id}")]
+        [UserType(UserType = Models.Enums.UserType.Admin)]
         public async Task<ActionResult> PutUserAsync(int id, Service service)
         {
             try
@@ -182,6 +183,7 @@ namespace CallMePhonyWebAPI.Controllers
         /// <response code="200">Returns a boolean isDeleted</response>
         /// <response code="404">If the Service doesn't exist</response>
         [HttpDelete("{id}")]
+        [UserType(UserType = Models.Enums.UserType.Admin)]
         public async Task<ActionResult> DeleteServiceAsync(int id)
         {
             try

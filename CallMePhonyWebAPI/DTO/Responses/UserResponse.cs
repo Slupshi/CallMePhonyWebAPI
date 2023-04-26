@@ -13,13 +13,15 @@ namespace CallMePhonyWebAPI.DTO.Responses
         public string Phone { get; set; }
         public string MobilePhone { get; set; }
         public UserType? UserType { get; set; }
-        public int? ServiceId { get; set; }
-        public int? SiteId { get; set; }
+        public string Gender { get; set; }
+        public Service? Service { get; set; }
+        public Site? Site { get; set; }
 
         public UserResponse() { }
 
         public UserResponse(User user) 
         {
+            Id = user.Id;
             FirstName = user.FirstName;
             LastName = user.LastName;
             UserName = user.UserName;
@@ -27,8 +29,9 @@ namespace CallMePhonyWebAPI.DTO.Responses
             UserType = user.UserType;
             Phone = user.Phone;
             MobilePhone = user.MobilePhone;
-            ServiceId = user.Service?.Id;
-            SiteId = user.Site?.Id;
+            Gender = user.Gender;
+            Service = user.Service;
+            Site = user.Site;
         }
 
     }
