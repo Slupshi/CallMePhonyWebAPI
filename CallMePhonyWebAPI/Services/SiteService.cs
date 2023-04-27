@@ -27,6 +27,8 @@ namespace CallMePhonyWebAPI.Services
         // </inheritedoc>
         public async Task<Site?> PostSiteAsync(Site model)
         {
+            model.Name = model.Name.Trim();
+
             Site? site = (await _context.Sites.AddAsync(model)).Entity;
             await _context.SaveChangesAsync();
             return site;
@@ -35,6 +37,8 @@ namespace CallMePhonyWebAPI.Services
         // </inheritedoc>
         public async Task<Site?> PutSiteAsync(Site model)
         {
+            model.Name = model.Name.Trim();
+
             if (model.Users != null)
             {
                 List<User> users = new List<User>();

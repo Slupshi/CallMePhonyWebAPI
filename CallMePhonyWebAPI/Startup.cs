@@ -72,7 +72,7 @@ public class Startup
         context.Database.EnsureCreated();
         SiteSeeder.Seed(context);
         ServiceSeeder.Seed(context);
-        UserSeeder.Seed(context);
+        UserSeeder.Seed(context, 1000);
 
         app.UseSwagger();
         app.UseSwaggerUI(options =>

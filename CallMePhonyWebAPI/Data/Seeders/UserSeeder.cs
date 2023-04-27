@@ -31,11 +31,11 @@ namespace CallMePhonyWebAPI.Data.Seeders
             return number;
         }
 
-        public static void Seed(CallMePhonyDbContext context)
+        public static void Seed(CallMePhonyDbContext context, int numberToSeed)
         {
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < numberToSeed; i++)
             {
-                if (context.Users.Count() < 1000)
+                if (context.Users.Count() < numberToSeed)
                 {
                     string fn = _firstNames.ElementAt(_random.Next(_firstNames.Count));
                     fn = $"{char.ToUpper(fn[0])}{fn[1..]}"; // fn[1..] ---> fn.Substring(1);
