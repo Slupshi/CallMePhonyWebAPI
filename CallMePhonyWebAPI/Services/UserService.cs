@@ -51,6 +51,7 @@ public class UserService : IUserService
     public async Task<IEnumerable<User?>> GetUsersAsync() => await _context.Users.Include(u => u.Service)
                                                                                  .Include(u => u.Site).Select(u => new User()
                                                                                  {
+                                                                                     Id = u.Id,
                                                                                      FirstName = u.FirstName,
                                                                                      LastName = u.LastName,
                                                                                      Email = u.Email,
@@ -61,6 +62,8 @@ public class UserService : IUserService
                                                                                      UserType = u.UserType,
                                                                                      Site = u.Site,
                                                                                      Service = u.Service,
+                                                                                     CreatedAt = u.CreatedAt,
+                                                                                     UpdatedAt = u.UpdatedAt,
                                                                                  })
                                                                                  .ToListAsync();
 

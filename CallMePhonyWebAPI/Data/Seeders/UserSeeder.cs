@@ -18,7 +18,7 @@ namespace CallMePhonyWebAPI.Data.Seeders
 
         private static List<string> _genders = new()
         {
-            "HOMME", "FEMME", "NON BINAIRE", "HELICOPTERE D'ATTAQUE",
+            "HOMME", "FEMME", "NON BINAIRE",
         };
 
         private static string PhoneNumber()
