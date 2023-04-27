@@ -60,7 +60,7 @@ namespace CallMePhonyWebAPI.Services
         public async Task<bool> DeleteServiceAsync(int id)
         {
             Service? dbService = await GetServiceAsync(id);
-            if (dbService != null)
+            if (dbService != null && (dbService.Users != null || !dbService.Users.Any()))
             {
                 _context.Services.Remove(dbService);
                 await _context.SaveChangesAsync();

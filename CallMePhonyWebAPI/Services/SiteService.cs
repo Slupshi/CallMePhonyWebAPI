@@ -60,7 +60,7 @@ namespace CallMePhonyWebAPI.Services
         public async Task<bool> DeleteSiteAsync(int id)
         {
             Site? dbSite = await GetSiteAsync(id);
-            if (dbSite != null)
+            if (dbSite != null && (dbSite.Users != null || !dbSite.Users.Any()))
             {
                 _context.Sites.Remove(dbSite);
                 await _context.SaveChangesAsync();
