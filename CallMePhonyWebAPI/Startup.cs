@@ -1,10 +1,9 @@
 ﻿using System.Reflection;
 using System.Text;
 using CallMePhonyWebAPI.Data;
-using CallMePhonyWebAPI.Helpers;
+using CallMePhonyWebAPI.Data.Seeders;
 using CallMePhonyWebAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -71,6 +70,9 @@ public class Startup
     public void Configure(IApplicationBuilder app, CallMePhonyDbContext context)
     {
         context.Database.EnsureCreated();
+        SiteSeeder.Seed(context);
+        ServiceSeeder.Seed(context);
+        UserSeeder.Seed(context);
 
         app.UseSwagger();
         app.UseSwaggerUI(options =>
