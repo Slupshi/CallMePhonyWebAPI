@@ -49,11 +49,9 @@ namespace CallMePhonyWebAPI.Controllers
 
                 User? dbUser = await _userService.GetUserAsync(id);
 
-                UserResponse response = new();
-
                 if (dbUser != null)
                 {
-                    response = new UserResponse(dbUser);
+                    UserResponse response = new UserResponse(dbUser);
                     return StatusCode(StatusCodes.Status200OK, response);
                 }
                 return StatusCode(StatusCodes.Status404NotFound, $"User with id: {id} not found");
