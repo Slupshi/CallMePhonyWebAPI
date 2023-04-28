@@ -52,7 +52,7 @@ namespace CallMePhonyWebAPI.Controllers
                 if (dbUser != null)
                 {
                     UserResponse response = new UserResponse(dbUser);
-                    return StatusCode(StatusCodes.Status200OK, response);
+                    return Ok(response);
                 }
                 return StatusCode(StatusCodes.Status404NotFound, $"User with id: {id} not found");
             }
@@ -94,9 +94,9 @@ namespace CallMePhonyWebAPI.Controllers
                     {
                         Users = users,
                     };
-                    return StatusCode(StatusCodes.Status200OK, response);
+                    return Ok(response);
                 }
-                return StatusCode(StatusCodes.Status204NoContent);
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -195,7 +195,7 @@ namespace CallMePhonyWebAPI.Controllers
                 if (updatedUser != null)
                 {
                     UserResponse response = new UserResponse(updatedUser);
-                    return StatusCode(StatusCodes.Status200OK, response);
+                    return Ok(response);
                 }
                 else
                 {
@@ -236,7 +236,7 @@ namespace CallMePhonyWebAPI.Controllers
                 }
 
                 bool isDeleted = await _userService.DeleteUserAsync(id);
-                return StatusCode(StatusCodes.Status200OK, isDeleted);
+                return Ok(isDeleted);
             }
             catch (Exception ex)
             {

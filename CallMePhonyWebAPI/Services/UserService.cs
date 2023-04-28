@@ -49,7 +49,22 @@ public class UserService : IUserService
     // </inheritedoc>
 
     public async Task<IEnumerable<User?>> GetUsersAsync() => await _context.Users.Include(u => u.Service)
-                                                                                 .Include(u => u.Site)
+                                                                                 .Include(u => u.Site).Select(u => new User()
+                                                                                 {
+                                                                                     Id = u.Id,
+                                                                                     FirstName = u.FirstName,
+                                                                                     LastName = u.LastName,
+                                                                                     Email = u.Email,
+                                                                                     Phone = u.Phone,
+                                                                                     Gender = u.Gender,
+                                                                                     MobilePhone = u.MobilePhone,
+                                                                                     UserName = u.UserName,
+                                                                                     UserType = u.UserType,
+                                                                                     Site = u.Site,
+                                                                                     Service = u.Service,
+                                                                                     CreatedAt = u.CreatedAt,
+                                                                                     UpdatedAt = u.UpdatedAt,
+                                                                                 })
                                                                                  .ToListAsync();
 
     // </inheritedoc>
@@ -72,6 +87,15 @@ public class UserService : IUserService
                 model.Service = service;
             }
         }
+
+        model.Password = model.Password?.Trim();
+        model.FirstName = model.FirstName.Trim();
+        model.LastName = model.LastName.Trim();
+        model.Email = model.Email.Trim();
+        model.UserName = model.UserName.Trim();
+        model.Gender = model.Gender.Trim();
+        model.MobilePhone = model.MobilePhone.Trim();
+        model.Phone = model.Phone.Trim();
 
         model.Password = PasswordHelper.HashPassword(model.Password);
 
@@ -101,6 +125,15 @@ public class UserService : IUserService
                 model.Service = service;
             }
         }
+
+        model.Password = model.Password?.Trim();
+        model.FirstName = model.FirstName.Trim();
+        model.LastName = model.LastName.Trim();
+        model.Email = model.Email.Trim();
+        model.UserName = model.UserName.Trim();
+        model.Gender = model.Gender.Trim();
+        model.MobilePhone = model.MobilePhone.Trim();
+        model.Phone = model.Phone.Trim();
 
         User? dbUser = await GetUserAsync(model.Id);
         model.CreatedAt = dbUser?.CreatedAt;
